@@ -18,11 +18,11 @@ class CalculationLakeService {
       return result;
     }
     async delete(id) {
-      const exist = await lakeCalculationModel.findOne({$and: [{_id: data._id}, {isDeleted: false}]});
+      const exist = await lakeCalculationModel.findOne({$and: [{_id: id}, {isDeleted: false}]});
       if(!exist) {
         return 0;
       }
-      const result = await lakeCalculationModel.findByIdAndUpdate(data._id, {isDeleted: true}, {new: true});
+      const result = await lakeCalculationModel.findByIdAndUpdate(id, {isDeleted: true}, {new: true});
       return result;
     }
     async calculator(data) {
