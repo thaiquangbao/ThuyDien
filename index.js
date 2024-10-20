@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
-const db = require("./node/src/config/database/appointment");
+const db = require("./node/src/config/database/hydroelectric");
 const dotenv = require("dotenv");
-const routes = require("./node/src/routes");
+const routes = require("./node/src/routes/index");
 const moment = require("moment-timezone");
 const compression = require("compression");
 const bodyParser = require("body-parser");
@@ -11,12 +11,10 @@ const cors = require("cors");
 const { default: helmet } = require("helmet");
 const morgan = require("morgan");
 moment.tz.setDefault("Asia/Ho_Chi_Minh");
-const port = 8999;
-const baseURL = "http://127.0.0.1:3000";
-const baseURLTWO = "http://127.0.0.1:3001";
-const baseURLDEPLOY = "https://heath-haven-meet.vercel.app";
-const myURLDEPLOY = "https://health-care-fe-two.vercel.app";
-const socket = require("./node/src/untill/Socket");
+
+const port = 5555;
+// const baseURL = "http://127.0.0.1:3000";
+// const baseURLTWO = "http://127.0.0.1:3001";
 const corsOptions = {
   origin: "*",
   allowedHeaders: [
@@ -37,19 +35,8 @@ app.use(
 app.use(express.json());
 dotenv.config();
 routes(app);
-db.connectAppointment();
-notify.startDepointmentFetch();
-notifyWeekly.startWeeklyLogBookFetch();
-expiredLogBook.startLogBookFetch();
-expiredAppointment.startDepointmentFetch();
-expiredAppointmentHome.startAppointmentHomeFetch();
+db.connectHydroelectric();
 const server = http.createServer(app);
-socket(server, [
-  baseURL,
-  baseURLTWO,
-  baseURLDEPLOY,
-  myURLDEPLOY,
-]);
 server.listen(port, () => {
   console.log(`Connect service running on port ${port}`);
 });
